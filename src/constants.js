@@ -19,7 +19,6 @@ export const BASE_COLUMNS = [
   },
 ]
 
-export const BASE_URL = 'https://api.apilayer.com/exchangerates_data'
 export const CONVERT_PAGE_TITLE = 'Currency Converter'
 export const EXCHANGE_FROM_BASE_CURRENCY = 'USD'
 export const RATES_PAGE_TITLE = 'Current exchange rates'

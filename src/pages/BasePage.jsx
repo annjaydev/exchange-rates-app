@@ -3,12 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 
 import { baseCurrencyAction } from '../store/reducers/baseCurrencyReducer'
 import { getExchangeRates } from '../store/asyncActions/exchangeRates'
-import { LayoutSider } from '../components/Sider'
-import { SymbolsSelect } from '../components/SymbolsSelect'
+import { LayoutSider, SymbolsSelect } from '../components'
 import { SYMBOLS } from '../constants'
-import Typography from 'antd/lib/typography'
-import Col from 'antd/lib/col'
-import Row from 'antd/lib/row'
+import { Col, Row, Typography } from 'antd/lib'
 
 const { Title } = Typography
 
@@ -16,9 +13,9 @@ export const BasePage = ({ children, title }) => {
   const { baseCurrency } = useSelector((state) => state.baseCurrency)
   const dispatch = useDispatch()
 
-  const handleChangeBaseCurrency = (e) => {
-    dispatch(baseCurrencyAction(e))
-    dispatch(getExchangeRates(e))
+  const handleChangeBaseCurrency = (baseCurrency) => {
+    dispatch(baseCurrencyAction(baseCurrency))
+    dispatch(getExchangeRates(baseCurrency))
   }
 
   return (
@@ -31,7 +28,7 @@ export const BasePage = ({ children, title }) => {
           <SymbolsSelect
             placeholder="Base currency"
             value={baseCurrency}
-            onChange={(e) => handleChangeBaseCurrency(e)}
+            onChange={handleChangeBaseCurrency}
             options={SYMBOLS}
           />
         </Col>

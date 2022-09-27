@@ -3,8 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { DollarCircleOutlined, BarChartOutlined } from '@ant-design/icons'
-import Layout from 'antd/lib/layout'
-import Menu from 'antd/lib/menu'
+import { Layout, Menu } from 'antd/lib'
 import { colors } from './styles'
 
 const { Sider, Content } = Layout
@@ -49,6 +48,7 @@ export const LayoutSider = ({ children }) => {
           ]}
         />
       </Sider>
+      
       <Layout>
         <Content>{children}</Content>
       </Layout>

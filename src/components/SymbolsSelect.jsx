@@ -1,5 +1,5 @@
+import { Option } from 'antd/lib/mentions'
 import React from 'react'
-import Select from 'antd/lib/select'
 
 import { StyledSelect } from './StyledComponents'
 
@@ -8,21 +8,12 @@ export const SymbolsSelect = ({
   options = [],
   placeholder = '',
   value,
-}) => {
-  return (
-    <StyledSelect
-      placeholder={placeholder}
-      value={value}
-      onChange={(e) => onChange(e)}
-      style={{
-        width: '100%',
-      }}
-    >
-      {Object.keys(options).map((key) => (
-        <Select.Option key={key} value={key}>
-          {options[key]}
-        </Select.Option>
-      ))}
-    </StyledSelect>
-  )
-}
+}) => (
+  <StyledSelect placeholder={placeholder} value={value} onChange={onChange}>
+    {Object.keys(options).map((key) => (
+      <Option key={key} value={key}>
+        {options[key]}
+      </Option>
+    ))}
+  </StyledSelect>
+)

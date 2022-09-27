@@ -1,12 +1,5 @@
 import styled from 'styled-components'
-import Input from 'antd/lib/input'
-import Select from 'antd/lib/select'
-
-export const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-`
+import { Input, Select } from 'antd/lib'
 
 export const StyledInput = styled(Input)`
   height: 32px;
@@ -15,6 +8,7 @@ export const StyledInput = styled(Input)`
 
 export const StyledSelect = styled(Select)`
   margin: 15px 0px;
+  width: 100%;
 
   .anticon-down svg {
     font-size: 15px;

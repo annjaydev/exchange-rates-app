@@ -1,11 +1,11 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FireOutlined, FireFilled } from '@ant-design/icons'
-import { Table } from '../components/Table'
+import { Table } from '../components'
 
 import { BasePage } from './BasePage'
 import { BASE_COLUMNS, RATES_PAGE_TITLE, SYMBOLS } from '../constants'
-import { compareCurrencies } from '../functions/compareCurrencies'
+import { compareCurrencies, getNewFavoriteCurrencies } from '../functions'
 import { favoritesAction } from '../store/reducers/favoritesReducer'
 
 export const RatesPage = () => {
@@ -14,31 +14,26 @@ export const RatesPage = () => {
 
   const dispatch = useDispatch()
 
-  const handleChangeFavorites = (code) => {
-    let refreshedFavorites = []
-    if (favorites.includes(code))
-      refreshedFavorites = favorites.filter((item) => item !== code)
-    else refreshedFavorites = favorites.concat(code)
+  const handleChangeFavorites = (currencyCode) => {
+    const newFavorites = getNewFavoriteCurrencies(favorites, currencyCode)
 
-    dispatch(favoritesAction(refreshedFavorites))
+    dispatch(favoritesAction(newFavorites))
   }
 
-  const getTableColumns = () => {
-    return [
-      ...BASE_COLUMNS,
-      {
-        title: 'Favorites',
-        key: 'action',
-        render: (row) =>
-          favorites.includes(row.key) ? (
-            <FireFilled onClick={() => handleChangeFavorites(row.key)} />
-          ) : (
-            <FireOutlined onClick={() => handleChangeFavorites(row.key)} />
-          ),
-        width: '10%',
-      },
-    ]
-  }
+  const getTableColumns = () => [
+    ...BASE_COLUMNS,
+    {
+      title: 'Favorites',
+      key: 'action',
+      render: (row) =>
+        favorites.includes(row.key) ? (
+          <FireFilled onClick={() => handleChangeFavorites(row.key)} />
+        ) : (
+          <FireOutlined onClick={() => handleChangeFavorites(row.key)} />
+        ),
+      width: '10%',
+    },
+  ]
 
   const getTableRow = (code) => ({
     key: code,

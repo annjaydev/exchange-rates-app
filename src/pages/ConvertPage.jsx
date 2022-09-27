@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import { RetweetOutlined } from '@ant-design/icons'
-import Col from 'antd/lib/col'
-import Row from 'antd/lib/row'
-import Tooltip from 'antd/lib/tooltip'
+import { Col, Row, Tooltip } from 'antd/lib'
 import { useSelector } from 'react-redux'
+import qs from 'qs'
 
 import { BasePage } from './BasePage'
-import { Container } from '../components/StyledComponents'
-import { CurrencyInput } from '../components/Input'
-import { SymbolsSelect } from '../components/SymbolsSelect'
-import { getApiData } from '../api/functions/request'
+import { CurrencyInput, SymbolsSelect } from '../components'
+import { getApiData } from '../api/request'
+import { getInitialConvertValue } from '../functions'
 import {
   CONVERT_PAGE_TITLE,
   EXCHANGE_FROM_BASE_CURRENCY,
@@ -19,9 +17,6 @@ import {
 export const ConvertPage = () => {
   const { baseCurrency } = useSelector((state) => state.baseCurrency)
   const { exchangeRates } = useSelector((state) => state.exchangeRates)
-
-  const getInitialConvertValue = (amount, exchangeRate) =>
-    (amount * exchangeRate).toFixed(4)
 
   const [convertFrom, setConvertFrom] = useState({
     currency: baseCurrency,
@@ -42,19 +37,20 @@ export const ConvertPage = () => {
         amount: getInitialConvertValue(amount, exchangeRates[to]),
       }))
     } else {
-      getApiData(`/convert?to=${to}&from=${from}&amount=${amount}`).then(
-        (response) =>
-          setConvertTo((state) => ({
-            ...state,
-            amount: response.data.result.toFixed(4),
-          })),
+      const urlParams = qs.stringify({ to, from, amount })
+
+      getApiData(`/convert?${urlParams}`).then((response) =>
+        setConvertTo((state) => ({
+          ...state,
+          amount: response.data.result.toFixed(4),
+        })),
       )
     }
   }
 
   return (
     <BasePage title={CONVERT_PAGE_TITLE}>
-      <Container style={{ marginTop: '30px' }}>
+      <Row justify="center" style={{ marginTop: '30px' }}>
         <Row justify="space-between" style={{ width: '100%' }}>
           <Col span={11}>
             <SymbolsSelect
@@ -66,6 +62,7 @@ export const ConvertPage = () => {
               options={SYMBOLS}
             />
           </Col>
+
           <Col span={11}>
             <CurrencyInput
               onChange={(e) =>
@@ -76,6 +73,7 @@ export const ConvertPage = () => {
             />
           </Col>
         </Row>
+
         <Tooltip placement="topRight" title={'Convert the currencies'}>
           <RetweetOutlined
             style={{ fontSize: '40px' }}
@@ -88,6 +86,7 @@ export const ConvertPage = () => {
             }
           />
         </Tooltip>
+
         <Row justify="space-between" style={{ width: '100%' }}>
           <Col span={11}>
             <SymbolsSelect
@@ -99,6 +98,7 @@ export const ConvertPage = () => {
               options={SYMBOLS}
             />
           </Col>
+
           <Col span={11}>
             <CurrencyInput
               disabled
@@ -107,7 +107,7 @@ export const ConvertPage = () => {
             />
           </Col>
         </Row>
-      </Container>
+      </Row>
     </BasePage>
   )
 }
